@@ -1,7 +1,5 @@
 # vistahop
 
-A GitHub repository by [ahang0712](https://github.com/ahang0712).
-
 > Add a description for this project here.
 
 ## Getting Started
