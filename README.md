@@ -11,12 +11,14 @@ This directory contains the evaluation runner and helper scripts used for the Vi
 - `evaluation/query_cache.py`: SQLite cache for raw search results.
 - `evaluation/mt_text_search.py`: optional internal search adapter, configured only through environment variables.
 - `evaluation/url_fetcher.py`: standalone URL fetch fallback utility.
+- `synthesis/`: VistaHop data synthesis pipeline, stage1 through stage6.
 - `scripts/`: launch templates for the evaluated model, judge model, summarizer model, and an example evaluation run.
 
 ## Setup
 
 ```bash
 bash scripts/setup_eval_env.sh
+pip install -r requirements.txt
 cp .env.example .env
 ```
 
@@ -59,7 +61,50 @@ bash scripts/run_eval_example.sh
 
 Outputs are written to timestamped `eval_*` directories unless `--output-dir` is provided.
 
+## Data Synthesis
+
+The synthesis pipeline is available as a top-level Python package:
+
+- Stage 1: extract named visual entities from an image, or accept seed entities directly.
+- Stage 2: build node descriptions and attributes.
+- Stage 3: construct evidence chains.
+- Stage 4: generate multi-hop questions.
+- Stage 5: convert questions into VQA items.
+- Stage 6: fuse multiple VQA chains into a composite question.
+
+Configure an OpenAI-compatible model in `.env`:
+
+```bash
+LLM_API_KEY=...
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL=gpt-4.1
+SERPAPI_KEY=...
+```
+
+Run a small example:
+
+```bash
+set -a
+source .env
+set +a
+bash scripts/run_synthesis_example.sh
+```
+
+Or invoke the pipeline directly:
+
+```bash
+python -m synthesis \
+  --image-url /path/to/image.jpg \
+  --max-stage 6 \
+  --generate-vqa \
+  --enable-stage6-fusion \
+  --output-dir ./outputs/synthesis
+```
+
+For multi-key local runs, create an untracked `model_rpm.yaml` from `model_rpm.example.yaml`.
+
 ## Notes
 
 - Do not commit real API keys, local `.env` files, generated caches, or evaluation outputs.
+- Do not commit `model_rpm.yaml`; use `model_rpm.example.yaml` as the template.
 - Set `USE_GOOGLE=false` only if `MT_SEARCH_BASE_URL` and `MT_SEARCH_AUTHORIZATION` are configured for the optional internal search adapter.

@@ -1,0 +1,9 @@
+model_rpm:
+  default: 20
+  gpt-4.1: 20
+
+api_config:
+  default_rpm: 20
+  base_url: https://api.openai.com/v1
+  api_keys:
+    - ${LLM_API_KEY}

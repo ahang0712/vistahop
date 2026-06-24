@@ -9,6 +9,7 @@ outputs/
 logs/
 *.db
 *.db-*
+model_rpm.yaml
 
 *.deb
 *.pt
