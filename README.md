@@ -2,7 +2,7 @@
 
 This directory contains the evaluation runner and helper scripts used for the VistaHop benchmark.
 
-> The complete benchmark is currently under review and will be released later.
+> A subset of the benchmark has been uploaded.
 
 ## Contents
 
