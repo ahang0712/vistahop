@@ -2,8 +2,6 @@
 
 This directory contains the evaluation runner and helper scripts used for the VistaHop benchmark.
 
-> A subset of the benchmark has been uploaded.
-
 ## Contents
 
 - `evaluation/run_vistahop_eval.py`: main evaluation entry point.
